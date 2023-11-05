@@ -8,6 +8,8 @@
       type="password"
     />
     <UButton @click="login" label="Login" color="black" />
+    <br />
+    <UButton @click="loginWithGithub" label="Login with Github" color="black" />
   </div>
 </template>
 
@@ -19,6 +21,18 @@ async function login() {
   try {
     await pb.collection("users").authWithPassword(email.value, password.value);
     navigateTo("/dashboard");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function loginWithGithub() {
+  try {
+    const data = await pb
+      .collection("users")
+      .authWithOAuth2({ provider: "github" });
+    navigateTo("/dashboard");
+    console.log(data);
   } catch (error) {
     console.log(error);
   }

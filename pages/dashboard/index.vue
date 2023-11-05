@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>This is a protected page</p>
     <div v-if="user">
       <p>Name: {{ user.name }}</p>
       <p>Email: {{ user.email }}</p>
@@ -10,7 +9,12 @@
       <h4 class="mt-4 font-semibold">Posts</h4>
       <ul class="mt-8 space-y-4">
         <li v-for="post in posts" :key="post.id">
-          {{ post.title }}
+          <p>
+            {{ post.title }}
+          </p>
+          <div v-if="post.thumbnail">
+            <img :src="getFileUrl(post)" />
+          </div>
         </li>
       </ul>
     </div>
@@ -59,8 +63,13 @@ onMounted(() => {
   });
 });
 
+function getFileUrl(post) {
+  return pb.files.getUrl(post, post.thumbnail);
+}
+
 async function logout() {
   try {
+    pb.collection("posts").unsubscribe("*");
     await pb.authStore.clear();
     navigateTo("/");
   } catch (error) {
