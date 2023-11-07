@@ -28,11 +28,8 @@ async function login() {
 
 async function loginWithGithub() {
   try {
-    const data = await pb
-      .collection("users")
-      .authWithOAuth2({ provider: "github" });
+    await pb.collection("users").authWithOAuth2({ provider: "github" });
     navigateTo("/dashboard");
-    console.log(data);
   } catch (error) {
     console.log(error);
   }

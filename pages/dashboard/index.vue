@@ -1,16 +1,19 @@
 <template>
   <div>
     <div v-if="user" class="space-y-4">
-      <div>
-        <p>Name: {{ user.name }}</p>
-        <p>Email: {{ user.email }}</p>
-      </div>
-      <div class="flex items-center gap-2">
-        <UButton @click="logout" label="Logout" color="black" />
-        <UButton @click="refresh" label="Refresh" color="black" />
-      </div>
+      <Navbar :user="user" />
       <div class="flex items-center justify-between">
-        <h4 class="font-semibold">Posts</h4>
+        <div class="flex items-center gap-2">
+          <h4 class="font-semibold">Posts</h4>
+          <UButton
+            @click="refresh"
+            icon="i-heroicons-arrow-path-solid"
+            variant="ghost"
+            size="xs"
+            color="gray"
+            :loading="pending"
+          />
+        </div>
         <UButton @click="newPost = true" label="Create Post" color="black" />
       </div>
       <ul class="grid grid-cols-2 gap-4">
@@ -34,10 +37,11 @@
           <p class="text-sm">Post Preview Image</p>
           <div
             ref="dropZoneRef"
-            class="rounded-lg h-40 bg-gray-100 ring-2 ring-gray-200 flex items-center justify-center mt-2"
+            class="rounded-lg h-40 bg-gray-100 dark:bg-gray-700 ring-2 ring-gray-200 dark:ring-gray-600 flex items-center justify-center mt-2"
             :class="{ 'animate-pulse': isOverDropZone }"
           >
-            Drop files here
+            <span v-if="!post.thumbnail">Drop files here</span>
+            <img v-else :src="imagePreview" class="h-40 w-auto object-cover" />
           </div>
         </div>
         <UButton @click="savePost" size="lg" label="Save" color="black" block />
@@ -47,27 +51,29 @@
 </template>
 
 <script setup>
-import { useDropZone } from "@vueuse/core";
+import { useObjectUrl, useDropZone } from "@vueuse/core";
 
 const dropZoneRef = ref();
 const toast = useToast();
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
-const newPost = ref(false);
-
+const { user } = usePocketBaseUser();
+const pb = usePocketBaseClient();
+definePageMeta({
+  middleware: ["auth"],
+});
 const post = ref({
   title: undefined,
   body: undefined,
   thumbnail: undefined,
 });
 
-const { user } = usePocketBaseUser();
-const pb = usePocketBaseClient();
-definePageMeta({
-  middleware: ["auth"],
-});
+const newPost = ref(false);
+const file = ref();
+const imagePreview = useObjectUrl(file);
 
 async function onDrop(files) {
   post.value.thumbnail = files[0];
+  file.value = files && files.length > 0 ? files[0] : undefined;
 }
 
 async function savePost() {
@@ -89,7 +95,11 @@ async function savePost() {
   }
 }
 
-const { data: posts, refresh } = await useAsyncData(
+const {
+  data: posts,
+  refresh,
+  pending,
+} = await useAsyncData(
   "posts",
   async () => {
     const records = await pb.collection("posts").getFullList({
@@ -126,16 +136,6 @@ onMounted(() => {
 
 function getFileUrl(post) {
   return pb.files.getUrl(post, post.thumbnail);
-}
-
-async function logout() {
-  try {
-    pb.collection("posts").unsubscribe("*");
-    await pb.authStore.clear();
-    navigateTo("/");
-  } catch (error) {
-    console.log(error);
-  }
 }
 </script>
 

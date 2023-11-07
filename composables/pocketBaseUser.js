@@ -7,11 +7,12 @@ export const usePocketBaseUser = () => {
   const isUserLoggedIn = pocketbase?.authStore.isValid;
 
   if (isUserLoggedIn) {
+    const avatarUrl = pocketbase.getFileUrl(pocketbase.authStore.model, pocketbase.authStore.model.avatar);
     user.value = {
       email: pocketbase.authStore.model.email,
       name: pocketbase.authStore.model.name,
       id: pocketbase.authStore.model.id,
-      avatar: pocketbase.authStore.model.avatar
+      avatar: avatarUrl,
     }
   } else {
     user.value = null
