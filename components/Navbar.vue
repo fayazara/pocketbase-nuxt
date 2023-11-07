@@ -5,31 +5,24 @@
     <p class="font-semibold">PB Nuxt</p>
     <UDropdown
       :items="items"
-      :ui="{ item: { disabled: 'cursor-text select-text' } }"
-      :popper="{ placement: 'bottom-start' }"
+      :ui="{ item: { disabled: 'cursor-text select-text opacity-100' } }"
     >
       <UAvatar :src="user.avatar" :alt="user.name" />
 
       <template #account="{ item }">
         <div class="text-left">
-          <p>Signed in as</p>
-          <p class="truncate font-medium text-gray-900 dark:text-white">
+          <p class="text-xs">Signed in as</p>
+          <p class="truncate font-medium text-gray-900 dark:text-white mt-2">
             {{ item.label }}
           </p>
-        </div>
-      </template>
-      <template #name="{ item }">
-        <div class="text-left">
-          <p>Name</p>
-          <p class="truncate font-medium text-gray-900 dark:text-white">
-            {{ item.label }}
+          <p class="truncate text-xs text-gray-700 dark:text-white">
+            {{ user.name }}
           </p>
         </div>
       </template>
 
       <template #item="{ item }">
         <span class="truncate">{{ item.label }}</span>
-
         <UIcon
           :name="item.icon"
           class="flex-shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto"
@@ -58,7 +51,6 @@ async function logout() {
 }
 const items = computed(() => {
   const userEmail = props.user.email || "Unknown User";
-  const userName = props.user.name || "Unknown User";
 
   return [
     [
@@ -67,11 +59,8 @@ const items = computed(() => {
         slot: "account",
         disabled: true,
       },
-      {
-        label: userName,
-        slot: "name",
-        disabled: true,
-      },
+    ],
+    [
       {
         label: "Documentation",
         icon: "i-heroicons-book-open",

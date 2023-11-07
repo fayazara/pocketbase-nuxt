@@ -37,10 +37,17 @@
           <p class="text-sm">Post Preview Image</p>
           <div
             ref="dropZoneRef"
-            class="rounded-lg h-40 bg-gray-100 dark:bg-gray-700 ring-2 ring-gray-200 dark:ring-gray-600 flex items-center justify-center mt-2"
-            :class="{ 'animate-pulse': isOverDropZone }"
+            class="rounded-lg h-40 bg-gray-100 dark:bg-gray-700 border dark:border-gray-600 flex items-center justify-center mt-2 transition-all"
+            :class="{
+              'animate-pulse ring-4 ring-teal-500 bg-teal-50 border-teal-500 dark:border-teal-400 ring-opacity-20':
+                isOverDropZone,
+            }"
+            @click="open"
           >
-            <span v-if="!post.thumbnail">Drop files here</span>
+            <div v-if="!post.thumbnail" class="text-center cursor-pointer">
+              <p>Drag some files here</p>
+              <p class="text-xs mt-1 text-gray-500">or click here to upload</p>
+            </div>
             <img v-else :src="imagePreview" class="h-40 w-auto object-cover" />
           </div>
         </div>
@@ -51,7 +58,7 @@
 </template>
 
 <script setup>
-import { useObjectUrl, useDropZone } from "@vueuse/core";
+import { useObjectUrl, useDropZone, useFileDialog } from "@vueuse/core";
 
 const dropZoneRef = ref();
 const toast = useToast();
@@ -71,10 +78,19 @@ const newPost = ref(false);
 const file = ref();
 const imagePreview = useObjectUrl(file);
 
-async function onDrop(files) {
+function onDrop(files) {
   post.value.thumbnail = files[0];
   file.value = files && files.length > 0 ? files[0] : undefined;
 }
+
+const { open, onChange } = useFileDialog({
+  accept: "image/*",
+});
+
+onChange((files) => {
+  post.value.thumbnail = files[0];
+  file.value = files && files.length > 0 ? files[0] : undefined;
+});
 
 async function savePost() {
   try {
