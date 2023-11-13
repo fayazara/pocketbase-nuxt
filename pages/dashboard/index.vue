@@ -37,7 +37,7 @@
           <p class="text-sm">Post Preview Image</p>
           <div
             ref="dropZoneRef"
-            class="rounded-lg h-40 bg-gray-100 dark:bg-gray-700 border dark:border-gray-600 flex items-center justify-center mt-2 transition-all"
+            class="rounded-lg h-40 bg-gray-100 dark:bg-gray-700 border dark:border-gray-600 flex items-center justify-center mt-2 transition-all overflow-hidden"
             :class="{
               'animate-pulse ring-4 ring-teal-500 bg-teal-50 border-teal-500 dark:border-teal-400 ring-opacity-20':
                 isOverDropZone,

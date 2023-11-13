@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase';
-const pb = new PocketBase('https://fayaz.pockethost.io');
+const pb = new PocketBase('https://fragrant-violet-2948.fly.dev');
 
 
 export const usePocketBaseClient = () => {
