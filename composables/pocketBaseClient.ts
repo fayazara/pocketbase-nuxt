@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase';
-const pb = new PocketBase('https://backend.fayazahmed.com');
+const pb = new PocketBase('https://fayaz.pockethost.io');
 
 
 export const usePocketBaseClient = () => {
