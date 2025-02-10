@@ -21,7 +21,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
-    url: '',
+    url: 'http://127.0.0.1:8090',
   },
   async setup(options, nuxt) {
     if (!options.url) {
