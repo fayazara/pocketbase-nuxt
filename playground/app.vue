@@ -1,35 +1,36 @@
 <template>
-  <div>
-    <h1>Hello</h1>
-    <form @submit.prevent="register">
-      <input
-        v-model="email"
-        type="email"
-      >
-      <input
-        v-model="password"
-        type="password"
-      >
-      <button type="submit">
-        Register
-      </button>
-    </form>
+  <div class="container">
+    <h1>Welcome to Pocketbase Nuxt Playground</h1>
+    <nav>
+      <NuxtLink to="/">Home</NuxtLink>
+      <NuxtLink to="/protected">Protected</NuxtLink>
+    </nav>
+    <hr>
+    <NuxtPage />
   </div>
 </template>
 
-<script setup lang="ts">
-const { signup } = usePocketbaseAuth()
-
-const email = ref('')
-const password = ref('')
-const name = ref('')
-const passwordConfirm = ref('')
-const register = async () => {
-  await signup({
-    email: email.value,
-    password: password.value,
-    name: name.value,
-    passwordConfirm: passwordConfirm.value,
-  })
+<style scoped>
+.container {
+  font-family:
+  ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  "Segoe UI Symbol", "Noto Color Emoji";
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem;
 }
-</script>
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: #000;
+}
+
+.router-link-exact-active {
+  color: blue;
+}
+</style>

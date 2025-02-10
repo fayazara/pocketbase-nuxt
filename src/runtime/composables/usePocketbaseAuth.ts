@@ -120,7 +120,13 @@ export const usePocketbaseAuth = () => {
   }
 
   const signOut = async () => {
-    await pb.authStore.clear()
+    try {
+      pb.authStore.clear()
+    }
+    catch (error) {
+      console.error('Failed to signout:', error)
+      throw createError('Failed to signout')
+    }
   }
 
   const refreshUser = async () => {
@@ -143,7 +149,7 @@ export const usePocketbaseAuth = () => {
     const {
       onSuccess,
       onError,
-      redirectPath = '/dashboard',
+      redirectPath,
       redirectDelay = 300,
     } = options
 

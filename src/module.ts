@@ -1,5 +1,10 @@
 import { fileURLToPath } from 'node:url'
-import { defineNuxtModule, createResolver, addPlugin, installModule } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  createResolver,
+  addPlugin,
+  installModule,
+} from '@nuxt/kit'
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {
