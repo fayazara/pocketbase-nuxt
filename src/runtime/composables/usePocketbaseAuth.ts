@@ -25,8 +25,8 @@ import { navigateTo, useState } from '#app'
  * @returns {object} Authentication utilities and state
  * @property {Readonly<Ref<AuthUser | null>>} user - Current authenticated user state
  * @property {Readonly<Ref<boolean>>} loading - Authentication loading state
- * @property {(credentials: LoginCredentials) => Promise<void>} loginWithPassword - Authenticates user with email/password
- * @property {(credentials: RegisterCredentials) => Promise<void>} registerWithPassword - Registers new user and sends verification email
+ * @property {(credentials: LoginCredentials) => Promise<void>} login - Authenticates user with email/password
+ * @property {(credentials: RegisterCredentials) => Promise<void>} signUp - Registers new user and sends verification email
  * @property {(provider: string, options?: OAuthHandlerOptions) => Promise<void>} handleOAuth - Handles OAuth authentication
  * @property {() => Promise<void>} signOut - Signs out current user
  * @property {(email: string) => Promise<void>} forgotPassword - Initiates password reset process
@@ -75,13 +75,13 @@ export const usePocketbaseAuth = () => {
     onUnmounted(() => unsubscribe?.())
   })
 
-  const loginWithPassword = async (credentials: LoginCredentials) => {
+  const login = async (credentials: LoginCredentials) => {
     authLoading.value = true
     try {
-      await pb
+      const authData = await pb
         .collection('users')
         .authWithPassword(credentials.email, credentials.password)
-      return navigateTo('/dashboard')
+      return authData
     }
     catch (error) {
       handleAuthError(error)
@@ -91,12 +91,12 @@ export const usePocketbaseAuth = () => {
     }
   }
 
-  const registerWithPassword = async (credentials: RegisterCredentials) => {
+  const signup = async (credentials: RegisterCredentials) => {
     authLoading.value = true
     try {
-      await pb.collection('users').create(credentials)
+      const newUser = await pb.collection('users').create(credentials)
       await pb.collection('users').requestVerification(credentials.email)
-      return navigateTo('/auth/login')
+      return newUser
     }
     catch (error) {
       handleAuthError(error)
@@ -121,7 +121,6 @@ export const usePocketbaseAuth = () => {
 
   const signOut = async () => {
     await pb.authStore.clear()
-    return navigateTo('/')
   }
 
   const refreshUser = async () => {
@@ -204,8 +203,8 @@ export const usePocketbaseAuth = () => {
     user: readonly(currentUser),
     loading: readonly(authLoading),
     authToken,
-    loginWithPassword,
-    registerWithPassword,
+    login,
+    signup,
     signOut,
     forgotPassword,
     refreshUser,
