@@ -3,6 +3,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: '2025-02-10',
   pocketbase: {
-    url: 'http://localhost:8090',
+    url: 'https://pocketbase.supersaas.dev',
   },
 })
