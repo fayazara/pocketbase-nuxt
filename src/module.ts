@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url'
-import { defineNuxtModule, createResolver, addPlugin } from '@nuxt/kit'
+import { defineNuxtModule, createResolver, addPlugin, installModule } from '@nuxt/kit'
 
 // Module options TypeScript interface definition
 export interface ModuleOptions {
@@ -42,5 +42,11 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('prepare:types', (options) => {
       options.references.push({ types: 'pocketbase' })
     })
+
+    // Add PocketBase admin module in dev mode
+    if (nuxt.options.dev) {
+      const { resolve } = createResolver(import.meta.url)
+      await installModule(resolve('./runtime/module/pocketbase-admin'))
+    }
   },
 })
