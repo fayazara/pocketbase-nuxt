@@ -1,6 +1,6 @@
 {
   "name": "pocketbase-nuxt",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Fayaz Ahmed @fayazara",
   "description": "PocketBase integration for Nuxt",
   "repository": "fayazara/pocketbase-nuxt",
@@ -8,13 +8,11 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
     }
   },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
   "files": [
     "dist"
   ],
@@ -38,7 +36,7 @@
   "devDependencies": {
     "@nuxt/devtools": "^2.0.0",
     "@nuxt/eslint-config": "^1.0.1",
-    "@nuxt/module-builder": "^0.8.4",
+    "@nuxt/module-builder": "^1.0.0-alpha.1",
     "@nuxt/schema": "^3.15.4",
     "@nuxt/test-utils": "^3.15.4",
     "@types/node": "latest",
