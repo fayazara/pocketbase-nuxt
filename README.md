@@ -3,7 +3,7 @@ Get your module up and running quickly.
 
 Find and replace all on all files (CMD+SHIFT+F):
 - Name: My Module
-- Package name: my-module
+- Package name: pocketbase-nuxt
 - Description: My new Nuxt module
 -->
 
@@ -17,7 +17,7 @@ Find and replace all on all files (CMD+SHIFT+F):
 A Nuxt module that provides seamless integration with PocketBase, offering composables for authentication, real-time data, and simplified API interactions.
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-  <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue) -->
+  <!-- - [🏀 Online playground](https://stackblitz.com/github/fayazara/pocketbase-nuxt?file=playground%2Fapp.vue) -->
   <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
@@ -39,24 +39,22 @@ A Nuxt module that provides seamless integration with PocketBase, offering compo
 
 ```bash
 # npm
-npm install @nuxtjs/pocketbase
+npm install pocketbase-nuxt
 
 # yarn
-yarn add @nuxtjs/pocketbase
+yarn add pocketbase-nuxt
 
 # pnpm
-pnpm add @nuxtjs/pocketbase
+pnpm add pocketbase-nuxt
 ```
 
 2. Add the module to your `nuxt.config.ts`:
 
 ```ts
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/pocketbase'],
-  runtimeConfig: {
-    public: {
-      pocketbaseUrl: 'http://127.0.0.1:8090' // Your PocketBase URL
-    }
+  modules: ['pocketbase-nuxt'],
+  pocketbase: {
+    url: 'http://127.0.0.1:8090' // Your PocketBase URL
   }
 })
 ```
@@ -113,16 +111,6 @@ const records = await pb.collection('posts').getList(1, 20)
 </script>
 ```
 
-## Configuration
-
-```ts
-export default defineNuxtConfig({
-  modules: ['@nuxtjs/pocketbase'],
-  pocketbase: {
-    url: 'https://pocketbase.your-domain.com',
-  },
-})
-```
 
 ## Development
 
@@ -153,11 +141,11 @@ npm run test:watch
 
 <!-- Badges -->
 
-[npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/my-module
-[npm-downloads-src]: https://img.shields.io/npm/dm/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/my-module
-[license-src]: https://img.shields.io/npm/l/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/my-module
+[npm-version-src]: https://img.shields.io/npm/v/pocketbase-nuxt/latest.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-version-href]: https://npmjs.com/package/pocketbase-nuxt
+[npm-downloads-src]: https://img.shields.io/npm/dm/pocketbase-nuxt.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-downloads-href]: https://npm.chart.dev/pocketbase-nuxt
+[license-src]: https://img.shields.io/npm/l/pocketbase-nuxt.svg?style=flat&colorA=020420&colorB=00DC82
+[license-href]: https://npmjs.com/package/pocketbase-nuxt
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
 [nuxt-href]: https://nuxt.com
