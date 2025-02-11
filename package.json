@@ -1,6 +1,6 @@
 {
   "name": "pocketbase-nuxt",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Fayaz Ahmed @fayazara",
   "description": "PocketBase integration for Nuxt",
   "repository": "fayazara/pocketbase-nuxt",
