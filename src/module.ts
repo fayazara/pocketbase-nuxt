@@ -5,7 +5,7 @@ import {
   addPlugin,
   installModule,
 } from '@nuxt/kit'
-
+import consola from 'consola'
 // Module options TypeScript interface definition
 export interface ModuleOptions {
   url: string
@@ -34,6 +34,20 @@ export default defineNuxtModule<ModuleOptions>({
     const { resolve } = createResolver(import.meta.url)
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
     nuxt.options.build.transpile.push(runtimeDir)
+
+    // Generate PocketBase types in the runtime directory
+    nuxt.hook('build:before', async () => {
+      const { execSync } = await import('node:child_process')
+      try {
+        execSync(
+          `npx pocketbase-typegen --env --out ${resolve(runtimeDir, 'types/pocketbase-types.ts')}`,
+          { stdio: 'inherit' },
+        )
+      }
+      catch (error) {
+        consola.error('Failed to generate PocketBase types:', error)
+      }
+    })
 
     // Add composables directory to auto-imports
     nuxt.hook('imports:dirs', (dirs: string[]) => {

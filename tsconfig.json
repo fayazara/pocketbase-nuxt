@@ -1,4 +1,9 @@
 {
   "extends": "./.nuxt/tsconfig.json",
-  "exclude": ["dist", "node_modules", "playground"]
+  "exclude": ["dist", "node_modules", "playground"],
+  "compilerOptions": {
+    "types": [
+      "./src/runtime/types/pocketbase-types.ts"
+    ]
+  }
 }
